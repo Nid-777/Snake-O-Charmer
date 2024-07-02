@@ -1,0 +1,73 @@
+* {
+    padding: 0%;
+    margin: 0%;
+}
+
+.body {
+
+    background-color: rgb(25, 56, 33);
+    background-image: url('../image1.png');
+    min-height: 100vh;
+    background-size: 30%;
+
+    background-repeat: repeat;
+    background-position: bottom right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px solid rgb(6, 5, 5);
+}
+
+#score {
+    background-color: antiquewhite;
+    border: 5px solid rgb(6, 5, 5);
+    display: inline-block;
+    justify-content: space-between;
+    width: -50%;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    flex-direction: row;
+    border-radius: 4px;
+    margin-bottom: 80vmin;
+}
+
+#highScore {
+    background-color: antiquewhite;
+    border: 5px solid rgb(6, 5, 5);
+    margin-bottom: 60vmin;
+    display: inline-block;
+    justify-content: space-between;
+    width: -50%;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    flex-direction: row;
+    border-radius: 4px;
+}
+
+
+
+.board {
+    background: rgb(52, 111, 59);
+    width: 80vmin;
+    height: 82vmin;
+    border: 5px solid rgb(184, 173, 173);
+    border-radius: 5px;
+
+    display: grid;
+    grid-template-rows: repeat(18, 1fr);
+    grid-template-columns: repeat(18, 1fr);
+}
+
+.head {
+    background-color: red;
+}
+
+.snake {
+    background-color: blueviolet;
+
+}
+
+.food {
+    background-color: yellow;
+
+}
