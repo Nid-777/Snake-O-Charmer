@@ -1,24 +1,30 @@
+// Function to generate a random position within the game board
+function getRandomPosition() {
+    let a = 2;
+    let b = 16;
+    return { x: Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) };
+}
+
 // Game constants and variables
 let direction = { x: 0, y: 0 };
 const foodSound = new Audio('foodSound.mp3');
-
 const moveSound = new Audio("snake-hissing.mp3");
-
-let speed = 2;
-
+let speed = 10;
 let lastPaintTime = 0;
-let snakeArr = [
-    { x: 13, y: 15 }
-];
-let food = { x: 6, y: 7 };
+let snakeArr = [getRandomPosition()]; // Random initial position for the snake
+let food = getRandomPosition(); // Random initial position for the food
 let score = 0;
 let highScore = localStorage.getItem('highScore') || 0;
 document.getElementById('highScore').innerHTML = "High Score: " + highScore;
 
+// Ensure food is not placed on the snake's initial position
+while (food.x === snakeArr[0].x && food.y === snakeArr[0].y) {
+    food = getRandomPosition();
+}
+
 // Game function
 function main(ctime) {
     window.requestAnimationFrame(main);
-
 
     if ((ctime - lastPaintTime) / 1000 < 1 / speed) {
         return;
@@ -28,7 +34,6 @@ function main(ctime) {
 }
 
 function isCollide(snake) {
-
     // If snake bumps into itself
     for (let i = 1; i < snakeArr.length; i++) {
         if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
@@ -45,15 +50,18 @@ function isCollide(snake) {
 function gameEngine() {
     // Part 1: Updating the snake array and food
     if (isCollide(snakeArr)) {
-
-
         direction = { x: 0, y: 0 };
         alert("Game Over! Press any key to play again.");
-        snakeArr = [{ x: 13, y: 15 }];
+        snakeArr = [getRandomPosition()]; // Reset to a new random position
+        food = getRandomPosition(); // Reset to a new random position
+
+        // Ensure food is not placed on the snake's initial position
+        while (food.x === snakeArr[0].x && food.y === snakeArr[0].y) {
+            food = getRandomPosition();
+        }
+
         score = 0;
-
         document.getElementById('score').innerHTML = "Score: " + score;
-
         return;
     }
 
@@ -70,11 +78,13 @@ function gameEngine() {
         }
 
         snakeArr.unshift({ x: snakeArr[0].x + direction.x, y: snakeArr[0].y + direction.y });
-        let a = 2;
-        let b = 16;
-        food = { x: Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) };
-    }
+        food = getRandomPosition();
 
+        // Ensure food is not placed on the snake
+        while (snakeArr.some(segment => segment.x === food.x && segment.y === food.y)) {
+            food = getRandomPosition();
+        }
+    }
 
     // Move the snake
     for (let i = snakeArr.length - 2; i >= 0; i--) {
@@ -86,7 +96,7 @@ function gameEngine() {
 
     // Part 2: Render the snake and food
     const board = document.querySelector('.board');
-    board.innerHTML = " "; // Corrected typo
+    board.innerHTML = "";
 
     // Display the snake
     snakeArr.forEach((e, index) => {
